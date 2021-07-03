@@ -37,12 +37,16 @@ class TrendingSellersContainer extends StatelessWidget {
             Positioned(top: MediaQuery.of(context).size.height*.23,
               child: Container(
                 width:MediaQuery.of(context).size.width*.35,
-                decoration: BoxDecoration(color: Colors.transparent,shape: BoxShape.rectangle,
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.5),shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(25),
                 bottomLeft: Radius.circular(25),),),
                 height: MediaQuery.of(context).size.height*.35*.33,
-                child: Text(data.sellerName,style: TextStyle(color: Colors.yellow),),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10,left: 10,right: 10),
+                  child: Text(data.sellerName,style: TextStyle(color: Colors.white,fontSize: 14),),
+                ),
               ),
             )
           ],
