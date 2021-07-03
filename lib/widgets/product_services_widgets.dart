@@ -70,7 +70,6 @@ class ProductServiceContainer extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(data.story,style: TextStyle(fontSize: 14,color: Colors.black),),
