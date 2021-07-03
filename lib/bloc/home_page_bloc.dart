@@ -10,20 +10,22 @@ import 'package:home_page_app/api_response/product_servive_response.dart';
 class HomePageBloc implements BaseBloc {
   //controller//
   final _trendingSellerController = BehaviorSubject<List<TrendingSellerResponse>>();
-  final _trendingProductController = BehaviorSubject<List<TrendingProductResponse>>();
+  final _trendingProductController = BehaviorSubject<List<ProductResponse>>();
   final _productServiceController = BehaviorSubject<List<ProductServiceResponse>>();
+  final _newArrivalController = BehaviorSubject<List<ProductResponse>>();
 
   //set data//
   Function(List<TrendingSellerResponse>) get changedTrendingSeller => _trendingSellerController.sink.add;
-  Function(List<TrendingProductResponse>) get changedTrendingProduct => _trendingProductController.sink.add;
+  Function(List<ProductResponse>) get changedTrendingProduct => _trendingProductController.sink.add;
   Function(List<ProductServiceResponse>) get changedProductService => _productServiceController.sink.add;
+  Function(List<ProductResponse>) get changedNewArrival => _newArrivalController.sink.add;
 
   Stream<List<TrendingSellerResponse>> get trendingController => _trendingSellerController.stream;
-  Stream<List<TrendingProductResponse>> get productController => _trendingProductController.stream;
+  Stream<List<ProductResponse>> get productController => _trendingProductController.stream;
   Stream<List<ProductServiceResponse>> get productServiceController => _productServiceController.stream;
+  Stream<List<ProductResponse>> get newArrival => _newArrivalController.stream;
 
-  fetchTrendingSeller()
-  {
+  fetchTrendingSeller() {
     callAPI('https://bd.ezassist.me/ws/mpFeed?instanceName=bd.ezassist.me&opt=trending_seller').then((response) {
       if(response.statusCode==200){
         var  jsonArray = (json.decode(response.body))[0];
@@ -39,19 +41,34 @@ class HomePageBloc implements BaseBloc {
     });
 
   }
-fetchTrendingProduct()
-  {
+fetchTrendingProduct() {
     callAPI('https://bd.ezassist.me/ws/mpFeed?instanceName=bd.ezassist.me&opt=trendingProducts').then((response) {
       if(response.statusCode==200){
         var  jsonArray = (json.decode(response.body))[0];
 
-        List<TrendingProductResponse> result = List();
+        List<ProductResponse> result = List();
         for(int index=0; index<jsonArray.length; index++){
 
-          result.add(TrendingProductResponse.fromJson(jsonArray[index]));
+          result.add(ProductResponse.fromJson(jsonArray[index]));
         }
 
         _trendingProductController.sink.add(result);
+      }
+    });
+
+  }
+  fetchNewArrival() {
+    callAPI('https://bd.ezassist.me/ws/mpFeed?instanceName=bd.ezassist.me&opt=newArrivals').then((response) {
+      if(response.statusCode==200){
+        var  jsonArray = (json.decode(response.body))[0];
+
+        List<ProductResponse> result = List();
+        for(int index=0; index<jsonArray.length; index++){
+
+          result.add(ProductResponse.fromJson(jsonArray[index]));
+        }
+
+        _newArrivalController.sink.add(result);
       }
     });
 
@@ -79,5 +96,6 @@ fetchProduct()
     _trendingSellerController?.close();
     _trendingProductController?.close();
     _productServiceController?.close();
+    _newArrivalController?.close();
   }
 }

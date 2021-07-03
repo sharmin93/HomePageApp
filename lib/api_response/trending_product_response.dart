@@ -1,4 +1,4 @@
-class TrendingProductResponse {
+class ProductResponse {
   String slNo;
   String productName;
   String shortDetails;
@@ -19,7 +19,7 @@ class TrendingProductResponse {
   int defaultPushScore;
   String myProductVarId;
 
-  TrendingProductResponse(
+  ProductResponse(
       {this.slNo,
         this.productName,
         this.shortDetails,
@@ -40,7 +40,7 @@ class TrendingProductResponse {
         this.defaultPushScore,
         this.myProductVarId});
 
-  TrendingProductResponse.fromJson(Map<String, dynamic> json) {
+  ProductResponse.fromJson(Map<String, dynamic> json) {
     slNo = json['slNo'];
     productName = json['productName'];
     shortDetails = json['shortDetails'];

@@ -52,8 +52,7 @@ class ProductServiceContainer extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10,left: 15,bottom: 8),
-                        child: Text('${ DateFormat('mm')
-                            .format(DateTime.parse(data.storyTime).toLocal())} Minute (s) ago',style: TextStyle(color: Colors.black,fontSize: 18),),
+                        child: Text(data.friendlyTimeDiff,style: TextStyle(color: Colors.black,fontSize: 12),),
                       ),
                     ],
                   ),

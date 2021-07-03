@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:home_page_app/api_response/trending_product_response.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-class TrendingProductContainer extends StatelessWidget {
+class NewArrivalContainer extends StatelessWidget {
   ProductResponse data;
 
-  TrendingProductContainer(this.data);
+  NewArrivalContainer(this.data);
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,13 @@ class TrendingProductContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),shape: BoxShape.rectangle),
         child:  Column(
           children: [
-            Container(
+            SizedBox(
+              height: MediaQuery.of(context).size.height*.22,
+              width: MediaQuery.of(context).size.width*.35,
               child: ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-                child: Image(
-                  height: MediaQuery.of(context).size.height * .22,
-                  width: MediaQuery.of(context).size.width * .35,
-                  image: NetworkImage(data.productImage),
+                borderRadius:
+                BorderRadius.circular(10.0),
+                child: Image.network(data.productImage,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -39,7 +39,7 @@ class TrendingProductContainer extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 8,right: 8,bottom: 8,left: 8),
                     child: AutoSizeText(data.productName,style: TextStyle(color: Colors.black,fontSize: 14),maxLines: 1,overflow:   TextOverflow.ellipsis,),
                   ),
-                  Center(child: Text(data.unitPrice.toString(),style: TextStyle(color: Colors.black,fontSize: 14),)),
+                  Center(child: Text('Price: MRY${data.unitPrice.toString()}',style: TextStyle(color: Colors.black,fontSize: 14),)),
                 ],
               ),
             )
