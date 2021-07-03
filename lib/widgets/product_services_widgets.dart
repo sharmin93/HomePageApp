@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:home_page_app/api_response/trending_product_response.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:home_page_app/api_response/product_servive_response.dart';
+import 'package:home_page_app/api_utils/image_util.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
 class ProductServiceContainer extends StatelessWidget {
@@ -35,13 +36,24 @@ class ProductServiceContainer extends StatelessWidget {
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: CircleAvatar(
-                      backgroundImage:
-                      NetworkImage(data.shopLogo),
-                      radius: 15,
-                    ),
+                  FutureBuilder(
+                    future: ImageUtil.getImageFile(data.shopLogo),
+                    builder: (context,dataFile){
+                    return dataFile.hasData?Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child:ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.file(dataFile.data,
+                          height: MediaQuery.of(context).size.height*0.05,
+                          width: MediaQuery.of(context).size.height*0.05,
+                          fit: BoxFit.cover,),
+
+
+                      )
+                    ):Container();
+                  },
+
+
                   ),
                   SizedBox(width: 10,),
                   Column(crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,14 +75,24 @@ class ProductServiceContainer extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(data.story,style: TextStyle(fontSize: 14,color: Colors.black),),
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image(
-                  height: MediaQuery.of(context).size.height * .25,
-                  width:  MediaQuery.of(context).size.width*.95,
-                  image: NetworkImage(data.storyImage),
-                  fit: BoxFit.cover,
-                ),
+              FutureBuilder(future: ImageUtil.getImageFile(data.storyImage),
+                builder: (context, dataFile){
+                return dataFile.hasData?
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.file(dataFile.data,
+                      height: MediaQuery.of(context).size.height * .25,
+                      width:  MediaQuery.of(context).size.width*.95,
+                      fit: BoxFit.cover,
+                    ),
+
+                  )
+                ):Container();
+              },
+
+
               ),
               SizedBox(height: 10,),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,

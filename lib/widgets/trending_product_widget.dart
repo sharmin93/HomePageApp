@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:home_page_app/api_response/trending_product_response.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:home_page_app/api_utils/image_util.dart';
 class TrendingProductContainer extends StatelessWidget {
   ProductResponse data;
 
@@ -18,22 +19,28 @@ class TrendingProductContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),shape: BoxShape.rectangle),
         child:  Column(
           children: [
-            Container(
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
-                child: Image(
-                  height: MediaQuery.of(context).size.height * .22,
-                  width: MediaQuery.of(context).size.width * .35,
-                  image: NetworkImage(data.productImage),
-                  fit: BoxFit.cover,
+            FutureBuilder(
+              future: ImageUtil.getImageFile(data.productImage),
+              builder: (context,dataFile){
+              return  dataFile.hasData?
+              Container(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10)),
+                  child: Image.file(dataFile.data,
+                    height: MediaQuery.of(context).size.height * .22,
+                    width: MediaQuery.of(context).size.width * .35,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
+              ):Container();
+            },
+
             ),
             Container(
               width:MediaQuery.of(context).size.width*.35,
-
               height: MediaQuery.of(context).size.height*.10,
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 8,right: 8,bottom: 8,left: 8),
