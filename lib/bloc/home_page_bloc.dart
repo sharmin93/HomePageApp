@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:home_page_app/api_utils/constant_url.dart';
 import 'package:home_page_app/api_utils/rest_api.dart';
 import 'package:home_page_app/bloc/base_bloc.dart';
 import 'package:rxdart/rxdart.dart';
@@ -26,7 +27,7 @@ class HomePageBloc implements BaseBloc {
   Stream<List<ProductResponse>> get newArrival => _newArrivalController.stream;
 
   fetchTrendingSeller() {
-    callAPI('https://bd.ezassist.me/ws/mpFeed?instanceName=bd.ezassist.me&opt=trending_seller').then((response) {
+    callAPI(trendingSellerUrl).then((response) {
       if(response.statusCode==200){
         var  jsonArray = (json.decode(response.body))[0];
 
@@ -42,7 +43,7 @@ class HomePageBloc implements BaseBloc {
 
   }
 fetchTrendingProduct() {
-    callAPI('https://bd.ezassist.me/ws/mpFeed?instanceName=bd.ezassist.me&opt=trendingProducts').then((response) {
+    callAPI(trendingProductUrl).then((response) {
       if(response.statusCode==200){
         var  jsonArray = (json.decode(response.body))[0];
 
@@ -58,7 +59,7 @@ fetchTrendingProduct() {
 
   }
   fetchNewArrival() {
-    callAPI('https://bd.ezassist.me/ws/mpFeed?instanceName=bd.ezassist.me&opt=newArrivals').then((response) {
+    callAPI(newArrivalUrl).then((response) {
       if(response.statusCode==200){
         var  jsonArray = (json.decode(response.body))[0];
 
@@ -75,7 +76,7 @@ fetchTrendingProduct() {
   }
 fetchProduct()
   {
-    callAPI('https://bd.ezassist.me/ws/mpFeed?instanceName=bd.ezassist.me&opt=stories').then((response) {
+    callAPI(productUrl).then((response) {
       if(response.statusCode==200){
         var  jsonArray = (json.decode(response.body))[0];
         List<ProductServiceResponse> result = List();
