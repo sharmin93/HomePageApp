@@ -28,6 +28,9 @@ dependencies:
   rxdart: ^0.24.1
   auto_size_text: ^2.1.0
   intl: any
+  flutter_cache_manager: any
+  path_provider: ^1.6.5
+  shared_preferences: ^0.5.12+4
 
 
   # The following adds the Cupertino Icons font to your application.

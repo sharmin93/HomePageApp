@@ -190,6 +190,22 @@ var homePageBloc=HomePageBloc();
                     ):Center(child: CircularProgressIndicator(strokeWidth: 2.5,));
                 }
             ),
+            SizedBox(height: 10,),
+            StreamBuilder<List<ProductServiceResponse>>(
+                stream: homePageBloc.productServiceController,
+                builder: (context, productServiceSnapshot) {
+                  return
+                    productServiceSnapshot.hasData!=null && productServiceSnapshot.data!=null ?
+                    ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount:3,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index){
+                          return  ProductServiceContainer(productServiceSnapshot.data[index+3]);
+                        })
+                        :Center(child: CircularProgressIndicator(strokeWidth: 2.5,));
+                }
+            ),
           ],),
         ),
       ),

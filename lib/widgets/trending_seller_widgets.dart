@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:home_page_app/api_response/trending_seller_response.dart';
+import 'package:home_page_app/api_utils/image_util.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 class TrendingSellersContainer extends StatelessWidget {
   TrendingSellerResponse data;
 
@@ -17,22 +20,38 @@ class TrendingSellersContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0),shape: BoxShape.rectangle),
         child:  Stack(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image(
-                height: MediaQuery.of(context).size.height * .35,
-                width: MediaQuery.of(context).size.width * .35,
-                image: NetworkImage(data.sellerItemPhoto),
-                fit: BoxFit.cover,
-              ),
+            FutureBuilder(future: ImageUtil.getImageFile(data.sellerItemPhoto),
+              builder: (context, dataFile){
+              return dataFile.hasData?  ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.file(dataFile.data,
+                  height: MediaQuery.of(context).size.height*.35,
+                    width: MediaQuery.of(context).size.width*.35,
+                  fit: BoxFit.cover,
+                ),
+              ):Container();
+            },
+
+
             ),
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: CircleAvatar(
-                backgroundImage:
-                NetworkImage(data.sellerProfilePhoto),
-                radius: 15,
-              ),
+            FutureBuilder(future: ImageUtil.getImageFile(data.sellerProfilePhoto),
+              builder: (context, dataFile){
+              return  dataFile.hasData?Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.file(dataFile.data,
+                  height: MediaQuery.of(context).size.height*0.05,
+                  width: MediaQuery.of(context).size.height*0.05,
+                  fit: BoxFit.cover,
+                ),
+
+
+                ),
+              ):Container();
+            },
+
+
             ),
             Positioned(top: MediaQuery.of(context).size.height*.23,
               child: Container(
