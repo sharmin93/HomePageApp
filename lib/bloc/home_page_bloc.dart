@@ -11,16 +11,14 @@ import 'package:home_page_app/api_response/product_servive_response.dart';
 
 class HomePageBloc implements BaseBloc {
   //controller//
-  final _trendingSellerController =
-      BehaviorSubject<List<TrendingSellerResponse>>();
+  final _trendingSellerController = BehaviorSubject<List<TrendingSellerResponse>>();
   final _trendingProductController = BehaviorSubject<List<ProductResponse>>();
-  final _productServiceController =
-      BehaviorSubject<List<ProductServiceResponse>>();
+  final _productServiceController = BehaviorSubject<List<ProductServiceResponse>>();
   final _newArrivalController = BehaviorSubject<List<ProductResponse>>();
+  final _newShopsController = BehaviorSubject<List<TrendingSellerResponse>>();
 
   //set data//
-  Function(List<TrendingSellerResponse>) get changedTrendingSeller =>
-      _trendingSellerController.sink.add;
+  Function(List<TrendingSellerResponse>) get changedTrendingSeller => _trendingSellerController.sink.add;
 
   Function(List<ProductResponse>) get changedTrendingProduct =>
       _trendingProductController.sink.add;
@@ -37,8 +35,8 @@ class HomePageBloc implements BaseBloc {
   Stream<List<ProductResponse>> get productController =>
       _trendingProductController.stream;
 
-  Stream<List<ProductServiceResponse>> get productServiceController =>
-      _productServiceController.stream;
+  Stream<List<ProductServiceResponse>> get productServiceController => _productServiceController.stream;
+  Stream<List<TrendingSellerResponse>> get newShopController => _newShopsController.stream;
 
   Stream<List<ProductResponse>> get newArrival => _newArrivalController.stream;
 
@@ -53,6 +51,20 @@ class HomePageBloc implements BaseBloc {
         }
 
         _trendingSellerController.sink.add(result);
+      }
+    });
+  }
+  fetchNewShops() {
+    callAPI(newShopsUrl).then((response) {
+      if (response.statusCode == 200) {
+        var jsonArray = (json.decode(response.body))[0];
+
+        List<TrendingSellerResponse> result = List();
+        for (int index = 0; index < jsonArray.length; index++) {
+          result.add(TrendingSellerResponse.fromJson(jsonArray[index]));
+        }
+
+        _newShopsController.sink.add(result);
       }
     });
   }
@@ -106,5 +118,6 @@ class HomePageBloc implements BaseBloc {
     _trendingProductController?.close();
     _productServiceController?.close();
     _newArrivalController?.close();
+    _newShopsController?.close();
   }
 }
