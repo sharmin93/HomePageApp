@@ -5,7 +5,6 @@ import 'package:home_page_app/api_utils/image_util.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 class NewShopsContainer extends StatelessWidget {
   TrendingSellerResponse data;
-
   NewShopsContainer(this.data);
 
   @override
